@@ -3,7 +3,10 @@
   "license": "SEE LICENSE IN <your-license-filename>",
   "version": "0.0.0",
   "nativescript": {
-    "id": "org.nativescript.sportSubs"
+    "id": "org.nativescript.sportSubs",
+    "tns-ios": {
+      "version": "6.2.0"
+    }
   },
   "dependencies": {
     "@angular/animations": "~8.2.0",

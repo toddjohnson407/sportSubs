@@ -4,6 +4,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
+import { RosterComponent } from './roster/roster.component';
 
 // Uncomment and add to NgModule imports if you need to use two-way binding
 // import { NativeScriptFormsModule } from 'nativescript-angular/forms';
@@ -15,6 +16,7 @@ import { HomeComponent } from './home/home.component';
   declarations: [
       AppComponent,
       HomeComponent,
+      RosterComponent,
   ],
   imports: [
       NativeScriptModule,

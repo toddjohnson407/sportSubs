@@ -1,0 +1,35 @@
+
+
+<ActionBar title="Substitution Tracker" class="action-bar">
+</ActionBar>
+
+<StackLayout flexDirection="column" justifyContent="flex-end" class="page">
+
+  <StackLayout class="form">
+    <StackLayout class="input-field">
+      <!-- <Label text="Roster Name" class="label font-weight-bold m-b-5 h2 text-center m-t-30"></Label> -->
+      <TextField class="-border text-center font-weight-bold" hint="Roster Name" [(ngModel)]="rosterForm.title"></TextField>
+      <StackLayout class="hr-light"></StackLayout>
+    </StackLayout>
+    <ListView [items]="rosterForm.players" class="nt-list-view list-group" height="310">
+      <ng-template let-player="item" let-i="index">
+          <StackLayout class="list-group-item">
+            <StackLayout class="input-field">
+              <!-- <StackLayout class="hr-light m-0"></StackLayout> -->
+              <TextField class="input" hint="Player Name" [(ngModel)]="rosterForm.players[i].name" returnKeyType="next"></TextField>
+            </StackLayout>
+            <!-- <StackLayout class="input-field">
+              <StackLayout class="hr-light"></StackLayout>
+              <TextField class="input" hint="Player Position" [(ngModel)]="rosterForm.players[i].position" returnKeyType="next"></TextField>
+            </StackLayout> -->
+          </StackLayout>
+      </ng-template>
+    </ListView>
+
+    <StackLayout flexDirection="column" justifyContent="flex-end">
+      <Button text="&#xf067;" (tap)="addPlayer()" class="fas add-icon btn"></Button>
+    </StackLayout>
+  </StackLayout>
+  <Button text="Create Roster" (tap)="createRoster()" class="btn-primary -rounded-lg"></Button>
+</StackLayout>
+

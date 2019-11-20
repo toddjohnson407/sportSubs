@@ -3,9 +3,11 @@ import { NativeScriptRouterModule } from 'nativescript-angular/router';
 import { Routes } from '@angular/router';
 
 import { HomeComponent } from './home/home.component';
+import { RosterComponent } from './roster/roster.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: '', redirectTo: '/roster', pathMatch: 'full' },
+  { path: 'roster', component: RosterComponent },
   { path: 'home', component: HomeComponent },
 ];
 
