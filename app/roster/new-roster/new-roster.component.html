@@ -1,0 +1,43 @@
+
+
+<ActionBar title="Substitution Tracker" class="action-bar"></ActionBar>
+  
+<StackLayout flexDirection="column" justifyContent="space-around" class="page m-x-24 m-t-30" *ngIf="isFirstPage">
+  <StackLayout class="form">
+    
+    <TextField hint="Roster Title" [(ngModel)]="rosterForm.title" returnKeyType="next" class="input input-border m-b-12"></TextField>
+    <TextField hint="Roster Description" [(ngModel)]="rosterForm.description" returnKeyType="next" class="input input-border m-b-12"></TextField>
+    <TextField hint="Sport" [(ngModel)]="rosterForm.sport" returnKeyType="next" class="input input-border m-b-12"></TextField>
+    <TextField hint="Players on Field" [(ngModel)]="rosterForm.playersOnField" keyboardType="number" returnKeyType="next" class="input input-border m-b-12"></TextField>
+    <TextField hint="Duration of Game" [(ngModel)]="rosterForm.gameDuration" keyboardType="number" returnKeyType="next" class="input input-border m-b-12"></TextField>
+
+  </StackLayout>
+  <Button text="Next" (tap)="togglePage()" class="btn btn-outline"></Button>
+</StackLayout>
+
+<FlexboxLayout flexDirection="column" justifyContent="space-around" class="page m-x-24 m-t-30" *ngIf="!isFirstPage">
+  
+  <StackLayout class="form">
+    <Label text="Players" class="players-header text-primary font-weight-bold text-center"></Label>
+    
+    <ListView [items]="rosterForm.players" class="list-group" height="320">
+      <ng-template let-player="item" let-i="index">
+        <TextField hint="Player Name" [(ngModel)]="rosterForm.players[i].name" class="input" returnKeyType="next"></TextField>
+      </ng-template>
+    </ListView>
+
+    <StackLayout flexDirection="column" justifyContent="space-around">
+      <Button text="&#xf067;" (tap)="addPlayer()" class="fas add-icon btn"></Button>
+    </StackLayout>
+
+  </StackLayout>
+
+  <StackLayout>
+    <Label *ngIf="!dbValid" text="There was an error creating this Roster." textWrap="true" class="text-danger"></Label>
+    
+    <Button text="Back" (tap)="togglePage()" class="btn btn-outline"></Button>
+    <Button text="Create Roster" (tap)="createRoster()" class="btn btn-outline"></Button>
+  </StackLayout>
+</FlexboxLayout>
+  
+  

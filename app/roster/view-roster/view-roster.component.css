@@ -1,0 +1,24 @@
+/* Add mobile styles for the component here.  */
+
+.large-text {
+  font-size: 36px;
+}
+.med-text {
+  font-size: 20px;
+}
+.small-text {
+  font-size: 12px;
+}
+
+.white-text {
+  color: white;
+}
+
+.white-outline-button {
+  padding: 8px;
+  border-color: white;
+  border-width: 2px;
+  color: white;
+  background: transparent;
+  font-weight: bold;
+}

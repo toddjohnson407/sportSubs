@@ -1,35 +1,36 @@
 
 
-<ActionBar title="Substitution Tracker" class="action-bar">
+<ActionBar class="action-bar">
+  <StackLayout class="action-bar-title">
+    <Label text="Sub Out" class="font-weight-bold"></Label>
+  </StackLayout>
 </ActionBar>
 
-<StackLayout flexDirection="column" justifyContent="flex-end" class="page">
+<FlexboxLayout flexDirection="column" justifyContent="space-around" class="page m-x-24">
+  <Label flexGrow="1" class="m-x-30 font-weight-bold text-muted text-center no-rosters-text" text="No Rosters" textWrap="true" *ngIf="!hasRosters"></Label>
 
-  <StackLayout class="form">
-    <StackLayout class="input-field">
-      <!-- <Label text="Roster Name" class="label font-weight-bold m-b-5 h2 text-center m-t-30"></Label> -->
-      <TextField class="-border text-center font-weight-bold" hint="Roster Name" [(ngModel)]="rosterForm.title"></TextField>
-      <StackLayout class="hr-light"></StackLayout>
+  <StackLayout *ngIf="hasRosters">
+    <Label text="Your Rosters" textWrap="true" class="text-primary font-weight-bold roster-header m-b-30"></Label>
+    
+    <StackLayout class="bg-primary roster-card m-b-20 p-12" (tap)="openRoster(roster)" *ngFor="let roster of rosters">
+      <Label [text]="roster.roster.title" textWrap="true" class="roster-card-text"></Label>
+      <Label [text]="roster.roster.sport" textWrap="true" class="roster-card-text"></Label>
     </StackLayout>
-    <ListView [items]="rosterForm.players" class="nt-list-view list-group" height="310">
-      <ng-template let-player="item" let-i="index">
-          <StackLayout class="list-group-item">
-            <StackLayout class="input-field">
-              <!-- <StackLayout class="hr-light m-0"></StackLayout> -->
-              <TextField class="input" hint="Player Name" [(ngModel)]="rosterForm.players[i].name" returnKeyType="next"></TextField>
-            </StackLayout>
-            <!-- <StackLayout class="input-field">
-              <StackLayout class="hr-light"></StackLayout>
-              <TextField class="input" hint="Player Position" [(ngModel)]="rosterForm.players[i].position" returnKeyType="next"></TextField>
-            </StackLayout> -->
-          </StackLayout>
+
+
+    <!-- <ListView [items]="rosters" class="list-group" height="300">
+      <ng-template let-roster="item" let-i="index">
+        <StackLayout class="bg-primary roster-card m-b-20 p-12" (tap)="openRoster(roster)">
+          <Label [text]="roster.title" textWrap="true" class="roster-card-text"></Label>
+          <Label [text]="roster.sport" textWrap="true" class="roster-card-text"></Label>
+        </StackLayout>
       </ng-template>
-    </ListView>
-
-    <StackLayout flexDirection="column" justifyContent="flex-end">
-      <Button text="&#xf067;" (tap)="addPlayer()" class="fas add-icon btn"></Button>
-    </StackLayout>
+    </ListView> -->
   </StackLayout>
-  <Button text="Create Roster" (tap)="createRoster()" class="btn-primary -rounded-lg"></Button>
-</StackLayout>
+
+  <StackLayout class="m-b-30">
+    <Button class="btn btn-outline" text="Add Roster" [nsRouterLink]="['/new-roster']" clearHistory="true"></Button>
+  </StackLayout>
+
+</FlexboxLayout>
 

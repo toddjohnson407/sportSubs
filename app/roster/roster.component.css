@@ -1,1 +1,18 @@
 /* Add mobile styles for the component here.  */
+
+.no-rosters-text {
+  font-size: 36px;
+}
+
+.roster-card {
+  border-radius: 16px;
+}
+
+.roster-card-text {
+  color: white;
+  font-weight: bold;
+}
+
+.roster-header {
+  font-size: 24px;
+}

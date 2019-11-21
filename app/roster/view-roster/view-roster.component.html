@@ -1,0 +1,26 @@
+
+
+<StackLayout class="bg-primary">
+  
+  <Label [text]="roster.title" textWrap="true" class="large-text m-20 font-weight-bold text-center"></Label>
+  <!-- <Label [text]="roster.description" textWrap="true" class="med-text m-x-20 text-center" textWrap="true"></Label> -->
+  <Label [text]="'Sport: ' + roster.sport" textWrap="true" class="med-text m-x-20 m-b-5 font-weight-bold"></Label>
+  <Label [text]="'Players on the Field: ' + roster.playersOnField" textWrap="true" class="med-text m-x-20 m-b-5 font-weight-bold"></Label>
+  <Label [text]="'Duration of Game: ' + roster.gameDuration" textWrap="true" class="med-text m-x-20 m-b-5 font-weight-bold"></Label>
+
+  <Label text="Players" textWrap="true" class="font-weight-bold med-text m-y-12 m-x-20"></Label>
+  <ListView [items]="players" class="list-group bg-primary m-x-20 m-b-30" height="300">
+    <ng-template let-player="item">
+      <StackLayout>
+        <Label [text]="player.name" class="list-group-item white-text font-weight-bold"></Label>
+      </StackLayout>
+    </ng-template>
+  </ListView>
+
+  <StackLayout class="hr-light m-10"></StackLayout>
+
+  <StackLayout>
+    <Button text="New Game" (tap)="newGame()" class="btn white-outline-button"></Button>
+  </StackLayout>
+  
+</StackLayout>

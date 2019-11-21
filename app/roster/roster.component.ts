@@ -1,9 +1,14 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewContainerRef } from "@angular/core";
 import { Roster } from "./roster";
 import { RosterService } from "./roster.service";
 import { Player } from "./player/player";
 import { FormControl } from "@angular/forms";
-// import { PingService } from "kinvey-nativescript-sdk/angular";
+import { PingService } from "kinvey-nativescript-sdk/angular";
+import { RouterExtensions } from "nativescript-angular/router";
+import { ModalDialogService, ModalDialogOptions } from "nativescript-angular/modal-dialog";
+import { ViewRosterComponent } from "./view-roster/view-roster.component";
+import { combineLatest } from "rxjs";
+
 
 @Component({
   selector: "app-roster",
@@ -13,59 +18,49 @@ import { FormControl } from "@angular/forms";
 
 export class RosterComponent implements OnInit {
 
-  /** Array of Players */
-  players: Array<Player> = [];
-  /** Form for adding Players to a Roster */
-  rosterForm: Roster;
+  /** Whether or not a user has any Rosters */
+  hasRosters: boolean = false;
+  /** Array of existing Rosters */
+  rosters: Array<any> = [];
 
   constructor(
-    private RosterService: RosterService,
-    // private pingService: PingService
-  ) {
-    this.addPlayer();
-    this.rosterForm = {
-      title: '',
-      minutes: 0,
-      playersOnField: 0,
-      players: this.players
+    private rosterService: RosterService,
+    private routerExtensions: RouterExtensions,
+    private viewContainerRef: ViewContainerRef,
+    private modalDialogService: ModalDialogService
+  ) { }
+
+  async ngOnInit() {
+    this.rosterService.allUserRosters().then((rosters: any) => rosters.subscribe((rosters: any) => {
+      this.hasRosters = (rosters && rosters.length) ? true : false;
+      this.rosters = [];
+      let playerObservables = [];
+      for (let roster of rosters) {
+        this.rosters.push({ roster: roster, players: [] });
+        playerObservables.push(this.rosterService.getRosterPlayers(roster._id));
+      }
+
+      combineLatest(playerObservables).subscribe((resp) => {
+        resp.forEach(([rosterId, players]) => {
+          let rosterIndex = this.rosters.findIndex(({roster: {_id}}) => _id === rosterId);
+          this.rosters[rosterIndex].players = players;
+        });
+      })
+    })).catch(err => console.log('Error retrieving user Rosters:', err));
+  }
+
+  /** Opens modal view of a single Roster */
+  openRoster(roster: any) {
+    const options: ModalDialogOptions = {
+      viewContainerRef: this.viewContainerRef,
+      fullscreen: false,
+      context: roster
     }
-  }
 
-  ngOnInit(): void {
-    console.log('rosterForm', this.rosterForm);
-    // this.verify();
-  }
-
-  /** Returns a new FormGroup for a new Player */
-  createPlayer = (): Player => ({ name: '', position: '' });
-
-  /** Pushes created Player to FormArray */
-  addPlayer = (): any => {
-    this.players.push(this.createPlayer());
-    console.log('-----------------');
-    console.log(this.players);
-    console.log(this.rosterForm);
+    this.modalDialogService.showModal(ViewRosterComponent, options);
 
   }
 
-  /** Submits new Roster data */
-  createRoster(): void {
-    console.log(this.players);
-    console.log(this.rosterForm);
-  }
-
-  async verify() {
-    // try {
-    //   const response = await this.pingService.ping();
-    //   console.log("Kinvey is up! "
-    //              + "Version: " + response.version
-    //              + " Response: " + response.kinvey
-    //   );
-    // } catch (error) {
-    //   console.log(error);
-    //   console.log(`Kinvey Ping Failed. Response: ${error}`);
-    // }
-  }
 
 }
 
