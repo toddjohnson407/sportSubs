@@ -12,30 +12,33 @@ import { LoginRegisterComponent } from './login-register/login-register.componen
 import { NativeScriptFormsModule } from 'nativescript-angular/forms';
 import { NewRosterComponent } from './roster/new-roster/new-roster.component';
 import { ViewRosterComponent } from './roster/view-roster/view-roster.component';
+import { BottomBarComponent } from './roster/new-roster/bottom-bar/bottom-bar.component';
 
 // Uncomment and add to NgModule imports  if you need to use the HTTP wrapper
 // import { NativeScriptHttpClientModule } from 'nativescript-angular/http-client';
 
 @NgModule({
   declarations: [
-      AppComponent,
-      HomeComponent,
-      RosterComponent,
-      LoginRegisterComponent,
-      NewRosterComponent,
-      ViewRosterComponent,
+    AppComponent,
+    HomeComponent,
+    RosterComponent,
+    LoginRegisterComponent,
+    NewRosterComponent,
+    ViewRosterComponent,
+    BottomBarComponent
   ],
   entryComponents: [
+    NewRosterComponent,
     ViewRosterComponent
   ],
   imports: [
-      NativeScriptFormsModule,
-      NativeScriptModule,
-      AppRoutingModule,
-      KinveyModule.init({
-        appKey: 'kid_rkAS63nsS',
-        appSecret: '33df2cb32c1b45fdbde41a69b5bd16e2'
-      })
+    NativeScriptFormsModule,
+    NativeScriptModule,
+    AppRoutingModule,
+    KinveyModule.init({
+      appKey: 'kid_rkAS63nsS',
+      appSecret: '33df2cb32c1b45fdbde41a69b5bd16e2'
+    })
   ],
   bootstrap: [AppComponent],
   schemas: [NO_ERRORS_SCHEMA],

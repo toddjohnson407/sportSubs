@@ -8,6 +8,7 @@ import { RouterExtensions } from "nativescript-angular/router";
 import { ModalDialogService, ModalDialogOptions } from "nativescript-angular/modal-dialog";
 import { ViewRosterComponent } from "./view-roster/view-roster.component";
 import { combineLatest } from "rxjs";
+import { NewRosterComponent } from "./new-roster/new-roster.component";
 
 
 @Component({
@@ -58,9 +59,16 @@ export class RosterComponent implements OnInit {
     }
 
     this.modalDialogService.showModal(ViewRosterComponent, options);
-
   }
 
+  /** Opens modal view for creating a new Roster */
+  newRoster() {
+    const options: ModalDialogOptions = {
+      viewContainerRef: this.viewContainerRef,
+      fullscreen: false
+    }
+    this.modalDialogService.showModal(NewRosterComponent, options).then(val => console.log(val)).catch(err => console.log('Error opening NewRoster Modal: ' + err));
+  }
 
 }
 

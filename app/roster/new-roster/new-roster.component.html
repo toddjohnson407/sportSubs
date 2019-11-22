@@ -1,43 +1,78 @@
+<GridLayout rows="auto, *" columns="*">
 
+  <app-bottom-bar (tabSelected)="tabChange($event)" row="0" rowSpan="1" colSpan="1" [currentTab]="currentTab"></app-bottom-bar>
 
-<ActionBar title="Substitution Tracker" class="action-bar"></ActionBar>
+  <StackLayout row="1" rowSpan="1" colSpan="1">      
+    <Tabs [selectedIndex]="currentTab" #rosterTabs class="bg-primary" (selectedIndexChanged)="tabChange(rosterTabs.selectedIndex)">
+    
+      <TabContentItem class="m-x-24 m-t-10">
+        <StackLayout class="m-x-24">
+          <StackLayout class="form m-b-20">
+            
+            <Label text="Team Info" class="players-header font-weight-bold text-center white-text"></Label>
+
+            <TextField #teamName hint="Team Name" style.placeholderColor="white" [(ngModel)]="rosterForm.title" returnKeyType="next" class="input input-bottom-line m-b-12" (focus)="focusField(teamName)" (blur)="blurField(teamName)"></TextField>
+            <TextField #teamDesc hint="Team Description" style.placeholderColor="white" [(ngModel)]="rosterForm.description" returnKeyType="next" class="input input-bottom-line m-b-12" (focus)="focusField(teamDesc)" (blur)="blurField(teamDesc)"></TextField>
+            <TextField #teamSport hint="Sport" style.placeholderColor="white" [(ngModel)]="rosterForm.sport" returnKeyType="next" class="input input-bottom-line m-b-12" (focus)="focusField(teamSport)" (blur)="blurField(teamSport)"></TextField>
+            <TextField #gameDur hint="Minutes in a Game" style.placeholderColor="white" [(ngModel)]="rosterForm.gameDuration" keyboardType="number" returnKeyType="next" class="input input-bottom-line m-b-12" (focus)="focusField(gameDur)" (blur)="blurField(gameDur)"></TextField>
+            
+            <FlexboxLayout justifyContent="space-between" alignItems="center" flexDirection="row" class="counter-field">
+              <StackLayout class="m-l-20 p-y-10" class="input-field p-t-5">
+                <Label text="Players on the Field" textWrap="true" class="input white-text"></Label>
+              </StackLayout>
+              <StackLayout>
+                <Label [text]="rosterForm.playersOnField" textWrap="true" class="font-weight-bold"></Label>
+              </StackLayout>
+              <StackLayout orientation="horizontal" class="m-r-20 p-y-10">
+                <Button text="&#xf056;" (tap)="modifyOnFieldCount(false)" class="fas modify-icon m-r-4"></Button>
+                <Button text="&#xf0fe;" (tap)="modifyOnFieldCount(true)" class="fas modify-icon"></Button>
+              </StackLayout>
+            </FlexboxLayout>
+
+            
+          </StackLayout>
+          <Button text="&#xf0a9;" (tap)="tabChange(1)" class="fas m-y-5 m-x-auto add-icon"></Button>
+        </StackLayout>
+      </TabContentItem>
   
-<StackLayout flexDirection="column" justifyContent="space-around" class="page m-x-24 m-t-30" *ngIf="isFirstPage">
-  <StackLayout class="form">
-    
-    <TextField hint="Roster Title" [(ngModel)]="rosterForm.title" returnKeyType="next" class="input input-border m-b-12"></TextField>
-    <TextField hint="Roster Description" [(ngModel)]="rosterForm.description" returnKeyType="next" class="input input-border m-b-12"></TextField>
-    <TextField hint="Sport" [(ngModel)]="rosterForm.sport" returnKeyType="next" class="input input-border m-b-12"></TextField>
-    <TextField hint="Players on Field" [(ngModel)]="rosterForm.playersOnField" keyboardType="number" returnKeyType="next" class="input input-border m-b-12"></TextField>
-    <TextField hint="Duration of Game" [(ngModel)]="rosterForm.gameDuration" keyboardType="number" returnKeyType="next" class="input input-border m-b-12"></TextField>
+      <TabContentItem class="m-x-24 m-t-10">
+        <StackLayout flexDirection="column" justifyContent="flex-start" alignContent="flex-start" class="m-x-24">
+          
+          <StackLayout class="form m-b-20">
+            <Label text="Team Players" class="players-header font-weight-bold text-center white-text"></Label>
+            
+            <ListView [items]="rosterForm.players" class="m-t-15 bg-primary players-list" height="320" separatorColor="transparent">
+              <ng-template let-player="item" let-i="index">
 
+                <StackLayout>
+                  <StackLayout class="m-x-10">                    
+                    <StackLayout orientation="horizontal" justifyContent="space-between">
+                      <TextField hint="Player Name" style.placeholderColor="white" width="200" [(ngModel)]="player.name" class="input input-rounded m-y-10 m-r-15" returnKeyType="next"></TextField>
+                      <Button text="&#xf056;" (tap)="removePlayer(i)" class="fas modify-icon"></Button>
+                    </StackLayout>
+                  </StackLayout>
+
+                  <StackLayout class="hr-light m-y-10"></StackLayout>
+                </StackLayout>
+
+              </ng-template>
+            </ListView>
+        
+            <StackLayout flexDirection="column" justifyContent="space-around">
+              <Button text="&#xf067;" (tap)="addPlayer()" class="fas add-icon"></Button>
+            </StackLayout>
+        
+          </StackLayout>
+        
+          <StackLayout>
+            <Label *ngIf="!dbValid" text="There was an error creating this Roster." textWrap="true" class="text-danger"></Label>
+            <Button text="Create Roster" (tap)="createRoster()" class="btn white-outline-button"></Button>
+          </StackLayout>
+        </StackLayout>
+      </TabContentItem>
+
+    </Tabs>
   </StackLayout>
-  <Button text="Next" (tap)="togglePage()" class="btn btn-outline"></Button>
-</StackLayout>
-
-<FlexboxLayout flexDirection="column" justifyContent="space-around" class="page m-x-24 m-t-30" *ngIf="!isFirstPage">
-  
-  <StackLayout class="form">
-    <Label text="Players" class="players-header text-primary font-weight-bold text-center"></Label>
-    
-    <ListView [items]="rosterForm.players" class="list-group" height="320">
-      <ng-template let-player="item" let-i="index">
-        <TextField hint="Player Name" [(ngModel)]="rosterForm.players[i].name" class="input" returnKeyType="next"></TextField>
-      </ng-template>
-    </ListView>
-
-    <StackLayout flexDirection="column" justifyContent="space-around">
-      <Button text="&#xf067;" (tap)="addPlayer()" class="fas add-icon btn"></Button>
-    </StackLayout>
-
-  </StackLayout>
-
-  <StackLayout>
-    <Label *ngIf="!dbValid" text="There was an error creating this Roster." textWrap="true" class="text-danger"></Label>
-    
-    <Button text="Back" (tap)="togglePage()" class="btn btn-outline"></Button>
-    <Button text="Create Roster" (tap)="createRoster()" class="btn btn-outline"></Button>
-  </StackLayout>
-</FlexboxLayout>
+</GridLayout>
   
   

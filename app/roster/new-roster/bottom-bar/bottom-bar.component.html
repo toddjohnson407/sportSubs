@@ -1,0 +1,16 @@
+
+<StackLayout height="110" class="bg-primary">
+  <StackLayout height="50" class="p-t-10 m-b-10">
+    <Label text="New Team" textWrap="true" class="large-text white-text font-weight-bold text-center"></Label>
+  </StackLayout>
+    
+  <FlexboxLayout height="30" class="p-b-10" row="0" justifyContent="center" alignItems="center" borderBottomColor="white" borderBottomWidth="2px">
+    <StackLayout (tap)="selectTab(0)" class="active">
+      <Label text="1" textWrap="true" class="white-text med-text font-weight-bold text-center"></Label>
+    </StackLayout>
+    <Progress value="100" maxValue="100" backgroundColor="gray" color="white" width="150"></Progress>
+    <StackLayout (tap)="selectTab(1)" [class]="currentTab === 1 ? 'active' : 'inactive'">
+      <Label text="2" textWrap="true" class="white-text med-text font-weight-bold text-center"></Label>
+    </StackLayout>
+  </FlexboxLayout>
+</StackLayout>

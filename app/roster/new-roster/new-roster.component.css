@@ -5,7 +5,56 @@
   background: transparent;
 }
 
+.modify-icon {
+  font-size: 24px;
+  background: transparent;
+}
+
 .players-header {
   font-size: 24px;
   font-weight: bold;
+}
+
+.large-text {
+  font-size: 36px;
+}
+.med-text {
+  font-size: 20px;
+}
+.small-text {
+  font-size: 12px;
+}
+
+.white-text {
+  color: white;
+}
+
+.white-outline-button {
+  padding: 8px;
+  border-color: white;
+  border-width: 2px;
+  color: white;
+  background: transparent;
+  font-weight: bold;
+}
+
+.counter-field {
+  border-bottom-color: white;
+  border-bottom-width: 2px;
+}
+
+.roster-tab-item {
+  width: 300 !important;
+}
+
+.input-bottom-line {
+  border-bottom-color: white;
+  border-bottom-width: 2px;
+}
+
+.players-list {
+  /* border-color: white;
+  border-width: 2px; */
+  padding: 10px;
+  box-sizing: border-box;
 }

@@ -1,9 +1,13 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
 import { Roster } from "../roster";
 import { RosterService } from "../roster.service";
 import { Player } from "../player/player";
 import { PingService } from "kinvey-nativescript-sdk/angular";
 import { RouterExtensions } from "nativescript-angular/router";
+import { ModalDialogParams } from "nativescript-angular/modal-dialog";
+
+import { screen } from "tns-core-modules/platform";
+
 
 @Component({
   selector: "app-new-roster",
@@ -21,12 +25,15 @@ export class NewRosterComponent implements OnInit {
   isFirstPage: boolean = true;
   /** Whether or not the form was successfully created in the database */
   dbValid: boolean = true;
-
+  /** Empty Player object for creating additional Players */
   newPlayer: Player;
+  /** Tracks the current tab */
+  currentTab: number = 0;
 
   constructor(
     private rosterService: RosterService,
-    private routerExtensions: RouterExtensions
+    private routerExtensions: RouterExtensions,
+    private params: ModalDialogParams
   ) {
 
     this.players = []
@@ -40,12 +47,13 @@ export class NewRosterComponent implements OnInit {
       sport: '',
       description: '',
       gameDuration: null,
-      playersOnField: null,
+      playersOnField: 2,
       players: this.players
     }
+    for (let i = 0; i < +this.rosterForm.playersOnField; i++) { this.addPlayer() }
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
 
   }
 
@@ -58,13 +66,21 @@ export class NewRosterComponent implements OnInit {
     this.newPlayer.name = '';
     this.newPlayer.position = '';
   }
+  /** Removes latest created Player from players */
+  removePlayer = (ind?: number): any => {
+    (ind || ind === 0) ? this.players.splice(ind, 1) : this.players.pop();
+    if (this.players.length < 1) this.addPlayer(); 
+    this.newPlayer.name = '';
+    this.newPlayer.position = '';
+  }
 
   /** Submits new Roster data */
   async createRoster() {
-    if(this.validateSecondPage()) {
+    if(this.validateSecondPage() && this.validateFirstPage()) {
       this.rosterService.createRoster(this.rosterForm).then(status => {
         this.dbValid = status;
-        this.dbValid && this.routerExtensions.navigateByUrl('/roster', { clearHistory: true })
+        this.dbValid && this.params.closeCallback({ success: true });
+        // this.dbValid && this.routerExtensions.navigateByUrl('/roster', { clearHistory: true })
       });
     }
   }
@@ -78,7 +94,6 @@ export class NewRosterComponent implements OnInit {
   validateFirstPage(): boolean {
     let isValid = true;
     isValid = !!this.rosterForm.title && !!this.rosterForm.sport && !!this.rosterForm.description && !!this.rosterForm.gameDuration && !!this.rosterForm.playersOnField
-    if (isValid) for (let i = 0; i < +this.rosterForm.playersOnField; i++) { this.addPlayer() }
     return isValid;
   }
 
@@ -89,7 +104,34 @@ export class NewRosterComponent implements OnInit {
     return isValid;
   }
 
+  goBack() {
+    this.routerExtensions.backToPreviousPage();
+  }
 
+  /** Modifies the playersOnField amount */
+  modifyOnFieldCount(adding: boolean): void {
+    if (adding) {
+      this.rosterForm.playersOnField++;
+      this.addPlayer();
+    }
+    else {
+      this.rosterForm.playersOnField--;
+      this.removePlayer();
+    }
+  }
 
+  tabChange(tab: number) {
+    this.currentTab = tab;
+  }
+
+  /** Changes styling of focused TextField */
+  focusField(field: any) {
+    field.borderBottomColor = 'gray';
+  }
+
+  /** Changes styling when TextField is blurred */
+  blurField(field: any) {
+    field.borderBottomColor = 'white';
+  }
 }
 

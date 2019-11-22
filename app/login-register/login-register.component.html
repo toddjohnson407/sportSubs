@@ -1,23 +1,17 @@
 
-<ActionBar class="action-bar">
-  <StackLayout class="action-bar-title">
-    <Label text="Sub Out" class="font-weight-bold"></Label>
-  </StackLayout>
-</ActionBar>
-
 <FlexboxLayout flexDirection="column" justifyContent="space-around" class="page m-x-24">      
   <Label [text]="isLogin ? 'Login' : 'Register'" textWrap="true" class="h1 text-center m-t-20 font-weight-bold"></Label>
   
   <StackLayout class="form" *ngIf="isLogin">
     <TextField hint="Username" [(ngModel)]="loginForm.username"class="input input-border m-b-12"></TextField>
-    <TextField hint="Password" [(ngModel)]="loginForm.password"class="input input-border m-b-12"></TextField>
+    <TextField hint="Password" secure="true" [(ngModel)]="loginForm.password"class="input input-border m-b-12"></TextField>
   </StackLayout>
 
   <StackLayout class="form" *ngIf="!isLogin">
     <TextField hint="Name" [(ngModel)]="registerForm.name"class="input input-border m-b-12"></TextField>
     <TextField hint="Username" [(ngModel)]="registerForm.username"class="input input-border m-b-12"></TextField>
     <TextField hint="Email" [(ngModel)]="registerForm.email"class="input input-border m-b-12"></TextField>
-    <TextField hint="Password" [(ngModel)]="registerForm.password"class="input input-border m-b-12"></TextField>
+    <TextField hint="Password" secure="true" [(ngModel)]="registerForm.password"class="input input-border m-b-12"></TextField>
   </StackLayout>
 
   <StackLayout class="input-field">

@@ -6,7 +6,7 @@ import { RouterExtensions } from "nativescript-angular/router";
 
 @Component({
   selector: 'app-root',
-  template: `<page-router-outlet></page-router-outlet>`
+  templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {
 
