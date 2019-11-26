@@ -13,6 +13,9 @@ import { NativeScriptFormsModule } from 'nativescript-angular/forms';
 import { NewRosterComponent } from './roster/new-roster/new-roster.component';
 import { ViewRosterComponent } from './roster/view-roster/view-roster.component';
 import { BottomBarComponent } from './roster/new-roster/bottom-bar/bottom-bar.component';
+import { NewGameComponent } from './game/new-game/new-game.component';
+import { CurrentGameComponent } from './game/current-game/current-game.component';
+import { ModalDialogService } from 'nativescript-angular/modal-dialog';
 
 // Uncomment and add to NgModule imports  if you need to use the HTTP wrapper
 // import { NativeScriptHttpClientModule } from 'nativescript-angular/http-client';
@@ -25,11 +28,13 @@ import { BottomBarComponent } from './roster/new-roster/bottom-bar/bottom-bar.co
     LoginRegisterComponent,
     NewRosterComponent,
     ViewRosterComponent,
-    BottomBarComponent
+    BottomBarComponent,
+    NewGameComponent,
+    CurrentGameComponent
   ],
   entryComponents: [
-    NewRosterComponent,
-    ViewRosterComponent
+    // NewRosterComponent,
+    // ViewRosterComponent
   ],
   imports: [
     NativeScriptFormsModule,
@@ -40,6 +45,7 @@ import { BottomBarComponent } from './roster/new-roster/bottom-bar/bottom-bar.co
       appSecret: '33df2cb32c1b45fdbde41a69b5bd16e2'
     })
   ],
+  providers: [ModalDialogService],
   bootstrap: [AppComponent],
   schemas: [NO_ERRORS_SCHEMA],
 })

@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalDialogParams } from 'nativescript-angular/modal-dialog';
+import { CommonService } from '../../common/common.service';
+import { RosterService } from '../roster.service';
+import { RouterExtensions } from 'nativescript-angular/router';
 
 @Component({
   selector: 'app-view-roster',
@@ -14,19 +17,21 @@ export class ViewRosterComponent implements OnInit {
   players: any;
 
   constructor(
-    private params: ModalDialogParams
+    private params: ModalDialogParams,
+    private commonService: CommonService,
+    private rosterService: RosterService,
+    private routerExtensions: RouterExtensions,
   ) { }
 
   ngOnInit() {
-    console.log(this.params);
-    console.log(this.params.context);
     this.roster = this.params.context.roster;
     this.players = this.params.context.players;
   }
 
-  /** Starts a New Game */
+  /** Navigates to new game page for the given Roster */
   newGame() {
-    console.log('Starting new game');
+    this.params.closeCallback({ newGame: true, rosterTitle: this.params.context.roster.title });
+    // this.routerExtensions.navigateByUrl(`/game/new/${this.commonService.urlFormat(this.params.context.roster.title)}`, { clearHistory: true })
   }
 
 }

@@ -1,14 +1,11 @@
 import { Component, OnInit, ViewContainerRef } from "@angular/core";
-import { Roster } from "./roster";
 import { RosterService } from "./roster.service";
-import { Player } from "./player/player";
-import { FormControl } from "@angular/forms";
-import { PingService } from "kinvey-nativescript-sdk/angular";
 import { RouterExtensions } from "nativescript-angular/router";
 import { ModalDialogService, ModalDialogOptions } from "nativescript-angular/modal-dialog";
 import { ViewRosterComponent } from "./view-roster/view-roster.component";
-import { combineLatest } from "rxjs";
 import { NewRosterComponent } from "./new-roster/new-roster.component";
+import { CommonService } from "../common/common.service";
+import { ActivatedRoute } from "@angular/router";
 
 
 @Component({
@@ -28,26 +25,18 @@ export class RosterComponent implements OnInit {
     private rosterService: RosterService,
     private routerExtensions: RouterExtensions,
     private viewContainerRef: ViewContainerRef,
-    private modalDialogService: ModalDialogService
+    private modalDialogService: ModalDialogService,
+    private commonService: CommonService,
+    private route: ActivatedRoute
   ) { }
 
   async ngOnInit() {
-    this.rosterService.allUserRosters().then((rosters: any) => rosters.subscribe((rosters: any) => {
-      this.hasRosters = (rosters && rosters.length) ? true : false;
-      this.rosters = [];
-      let playerObservables = [];
-      for (let roster of rosters) {
-        this.rosters.push({ roster: roster, players: [] });
-        playerObservables.push(this.rosterService.getRosterPlayers(roster._id));
-      }
-
-      combineLatest(playerObservables).subscribe((resp) => {
-        resp.forEach(([rosterId, players]) => {
-          let rosterIndex = this.rosters.findIndex(({roster: {_id}}) => _id === rosterId);
-          this.rosters[rosterIndex].players = players;
-        });
-      })
-    })).catch(err => console.log('Error retrieving user Rosters:', err));
+    this.rosterService.allRosterData().subscribe((rosters: any) => {
+      if (rosters && rosters.length) {
+        this.rosters = rosters;
+        this.hasRosters = true;
+      } else this.hasRosters = false;
+    });
   }
 
   /** Opens modal view of a single Roster */
@@ -58,7 +47,10 @@ export class RosterComponent implements OnInit {
       context: roster
     }
 
-    this.modalDialogService.showModal(ViewRosterComponent, options);
+    this.modalDialogService.showModal(ViewRosterComponent, options)
+      .then(val => {
+        if (val && val.newGame && val.rosterTitle) this.newGame(val.rosterTitle) 
+      }).catch(err => console.log('Error with ViewRoster Modal: ' + err));
   }
 
   /** Opens modal view for creating a new Roster */
@@ -67,7 +59,15 @@ export class RosterComponent implements OnInit {
       viewContainerRef: this.viewContainerRef,
       fullscreen: false
     }
-    this.modalDialogService.showModal(NewRosterComponent, options).then(val => console.log(val)).catch(err => console.log('Error opening NewRoster Modal: ' + err));
+    this.modalDialogService.showModal(NewRosterComponent, options)
+  }
+
+  /** Navigates to new game page for the given Roster */
+  newGame(rosterTitle: any) {
+    console.log('ROSTER TITLE');
+    console.log(rosterTitle);
+    console.log(this.route.snapshot.params)
+    this.routerExtensions.navigateByUrl(`/game/new/${this.commonService.urlFormat(rosterTitle)}`, { clearHistory: false })
   }
 
 }

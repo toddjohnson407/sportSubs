@@ -7,6 +7,7 @@ import { RouterExtensions } from "nativescript-angular/router";
 import { ModalDialogParams } from "nativescript-angular/modal-dialog";
 
 import { screen } from "tns-core-modules/platform";
+import { CommonService } from "../../common/common.service";
 
 
 @Component({
@@ -31,6 +32,7 @@ export class NewRosterComponent implements OnInit {
   currentTab: number = 0;
 
   constructor(
+    private commonService: CommonService,
     private rosterService: RosterService,
     private routerExtensions: RouterExtensions,
     private params: ModalDialogParams
@@ -41,7 +43,7 @@ export class NewRosterComponent implements OnInit {
       name: '',
       position: ''
     }
-    // for (let i = 0; i < 6; i++) { this.addPlayer() }
+    
     this.rosterForm = {
       title: '',
       sport: '',

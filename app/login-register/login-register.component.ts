@@ -35,7 +35,6 @@ export class LoginRegisterComponent implements OnInit {
 
   async ngOnInit() {
     let user = await this.userService.getActiveUser();
-    console.log(user);
   }
 
   /** Logs in user */

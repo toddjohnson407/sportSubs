@@ -1,5 +1,6 @@
 
 <ActionBar class="action-bar" title="Sub Out">
+  <NavigationButton visibility="collapsed"></NavigationButton>
   <ActionItem ios.position="right" icon="font://&#xf055;" class="fas new-roster-icon" (tap)="newRoster()"></ActionItem>
 </ActionBar>
 
@@ -9,10 +10,16 @@
   <StackLayout *ngIf="hasRosters">
     <Label text="Your Teams" textWrap="true" class="text-primary font-weight-bold roster-header m-b-30"></Label>
     
-    <StackLayout class="bg-primary roster-card m-b-20 p-12" (tap)="openRoster(roster)" *ngFor="let roster of rosters">
-      <Label [text]="roster.roster.title" textWrap="true" class="roster-card-text"></Label>
-      <Label [text]="roster.roster.sport" textWrap="true" class="roster-card-text"></Label>
-    </StackLayout>
+    <FlexboxLayout justifyContent="space-between" alignItems="center" class="bg-primary roster-card m-b-20 p-12" (tap)="openRoster(roster)" *ngFor="let roster of rosters">
+      <StackLayout>
+        <Label [text]="roster.roster.title" textWrap="true" class="roster-card-text"></Label>
+        <Label [text]="roster.roster.sport" textWrap="true" class="roster-card-text"></Label>
+      </StackLayout>
+      <StackLayout>
+        <Button text="&#xf055;" (tap)="newGame(roster.roster.title)" class="fas new-roster-icon m-r-4"></Button>
+      </StackLayout>
+    </FlexboxLayout>
   </StackLayout>
 </FlexboxLayout>
+
 
