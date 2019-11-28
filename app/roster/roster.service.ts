@@ -5,6 +5,7 @@ import { RouterExtensions } from "nativescript-angular/router";
 import { Observable, combineLatest, of, BehaviorSubject } from "rxjs";
 import { switchMap, map, tap, filter } from "rxjs/operators";
 import { Player } from "./player/player";
+import { GameService } from "../game/game.service";
 
 
 @Injectable({
@@ -22,7 +23,8 @@ export class RosterService {
   constructor(
     private routerExtensions: RouterExtensions,
     private userService: UserService,
-    private dataStoreService: DataStoreService
+    private dataStoreService: DataStoreService,
+    private gameService: GameService
   ) {
     this.rosters = this.dataStoreService.collection('rosters');
     this.players = this.dataStoreService.collection('players');
@@ -32,7 +34,8 @@ export class RosterService {
   /** Returns a User's Rosters */
   allUserRosters(): Observable<any> {
     let user = this.userService.getActiveUser();
-    if (!user) this.routerExtensions.navigateByUrl('/login-register', { clearHistory: true });
+    if (!user) this.routerExtensions.navigateByUrl('/home', { clearHistory: true });
+    // if (!user) this.routerExtensions.navigateByUrl('/login-register', { clearHistory: true });
 
     let rosterQuery = new Query();
     rosterQuery.equalTo('user_id', user._id);
@@ -42,7 +45,8 @@ export class RosterService {
   /** Creates a new Roster */
   async createRoster({title, sport, description, players, gameDuration, playersOnField}: Roster) {
     let user = await this.userService.getActiveUser();
-    if (!user) this.routerExtensions.navigateByUrl('/login-register', { clearHistory: true });
+    // if (!user) this.routerExtensions.navigateByUrl('/login-register', { clearHistory: true });
+    if (!user) this.routerExtensions.navigateByUrl('/home', { clearHistory: true });
     let status = false;
     try {
       let newRoster = { title, sport, description, gameDuration, playersOnField, user_id: user._id }
@@ -67,11 +71,11 @@ export class RosterService {
     rosters && this.allRosters.next(rosters);
   }
 
-  /** Gets all players from a given Roster */
+  /** Gets all players from a given Roster as well as Games */
   getRosterPlayers(rosterId: any): Observable<any> {
     let playersQuery = new Query();
     playersQuery.equalTo('roster_id', rosterId);
-    return combineLatest(of(rosterId), this.players.find(playersQuery));
+    return combineLatest(of(rosterId), this.players.find(playersQuery), this.gameService.getRosterGames(rosterId));
   }
 
 
@@ -87,11 +91,13 @@ export class RosterService {
 
       if (!rosters || !rosters.length) return []
 
-      return combineLatest(rosters.map(({ _id }) => this.getRosterPlayers(_id))).pipe(tap((resp: any) => {
+      return combineLatest(
+        rosters.map(({ _id }) => this.getRosterPlayers(_id))
+      ).pipe(tap((resp: any) => {
         let rosterData = [];
-        resp.forEach(([rosterId, players]) => {
+        resp.forEach(([rosterId, players, games]) => {
           let rosterIndex = rosters.findIndex(({_id}) => _id === rosterId);
-          rosterData.push({ roster: rosters[rosterIndex], players })
+          rosterData.push({ roster: rosters[rosterIndex], players, games })
         });
         this.allRosters.next(rosterData)
       }));
@@ -101,7 +107,6 @@ export class RosterService {
 
   /** Gets a roster by its title attribute */
   getRoster(title: string): Observable<any> {
-
     // if (!this.allRosters.value) this.routerExtensions.navigateByUrl('/roster', { clearHistory: true });
     return this.allRosterData().pipe(map(rosters => rosters.find((roster: any) => roster.roster.title === title)));
   }

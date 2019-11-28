@@ -9,7 +9,7 @@ interface Score {
 export interface Game {
   opponent: string;
   subFrequency: number;
-  players: Array<PlayerGame>
+  players: Array<PlayerGame>,
   score?: Score;
 }
 

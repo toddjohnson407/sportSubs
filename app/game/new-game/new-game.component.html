@@ -4,24 +4,40 @@
 </ActionBar>
 
 <FlexboxLayout flexDirection="column" justifyContent="space-between" class="m-x-24 m-y-20" *ngIf="roster">
+   <StackLayout>
+      <Label [text]="roster.roster.title" textWrap="true" class="text-primary font-weight-bold team-name m-b-10 text-center"></Label>
+   </StackLayout>
+
    <StackLayout class="form">
-      <TextField #gameOpponent hint="Opponent" style.placeholderColor="white" [(ngModel)]="gameForm.opponent" returnKeyType="next" class="input input-bottom-line m-b-12" (focus)="focusField(teamName)" (blur)="blurField(teamName)"></TextField>
-      <TextField #subFreq hint="Substitution Frequency" style.placeholderColor="white" [(ngModel)]="gameForm.subFrequency" returnKeyType="next" class="input input-bottom-line m-b-12" (focus)="focusField(subFreq)" (blur)="blurField(subFreq)"></TextField>
-      <ListView [items]="roster.players" class="m-t-15 bg-primary players-list" height="320" separatorColor="transparent">
-         <ng-template let-player="item" let-i="index">
 
-            <StackLayout>
-               <StackLayout class="m-x-10">                    
-               <StackLayout orientation="horizontal" justifyContent="space-between">
-                  <Label text="player.name" textWrap="true" class="text-primary font-weight-bold"></Label>
-                  <Button text="&#xf056;" (tap)="togglePlayer(player)" class="fas modify-icon"></Button>
-               </StackLayout>
-               </StackLayout>
+      <StackLayout class="input-field">
+         <Label text="Substitution Frequency" keyboardType="number" class="text-primary font-weight-bold m-b-5"></Label>
+         <TextField #subFreq [(ngModel)]="gameForm.subFrequency" returnKeyType="next" class="input text-primary m-b-12" (focus)="focusField(subFreq)" (blur)="blurField(subFreq)"></TextField>
+         <StackLayout class="hr-light"></StackLayout>
+      </StackLayout>
+      <StackLayout class="input-field">
+         <Label text="Opponent Name" class="text-primary font-weight-bold m-b-5"></Label>
+         <TextField #gameOpponent [(ngModel)]="gameForm.opponent" returnKeyType="next" class="input text-primary m-b-12" (focus)="focusField(gameOpponent)" (blur)="blurField(gameOpponent)"></TextField>
+         <StackLayout class="hr-light"></StackLayout>
+      </StackLayout>
 
-               <StackLayout class="hr-light m-y-10"></StackLayout>
+      <StackLayout class="input-field">
+         <Label text="Select Players for the Game" textWrap="true" class="text-primary font-weight-bold m-b-20"></Label>
+      </StackLayout>
+      
+      <ListView [items]="roster.players" class="m-b-30" height="250">
+         <ng-template let-player="item">
+            <StackLayout class="input-field">
+               <StackLayout orientation="horizontal" (tap)="togglePlayer(player)">
+                  <Button [text]="player.selected ? '&#xf192;' : '&#xf111;'" class="far text-primary m-r-20"></Button>
+                  <Label [text]="player.name" class="text-primary font-weight-bold"></Label>
+               </StackLayout>
             </StackLayout>
-
          </ng-template>
       </ListView>
+
+      <StackLayout>
+         <Button text="&#xf058;" textWrap="true" class="fas text-primary add-icon text-center" (tap)="selectStarters()"></Button>
+      </StackLayout>
    </StackLayout>
 </FlexboxLayout>

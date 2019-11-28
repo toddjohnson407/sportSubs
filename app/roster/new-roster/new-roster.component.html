@@ -1,8 +1,8 @@
 <GridLayout rows="auto, *" columns="*">
 
-  <app-bottom-bar (tabSelected)="tabChange($event)" row="0" rowSpan="1" colSpan="1" [currentTab]="currentTab"></app-bottom-bar>
+  <app-new-roster-bar (tabSelected)="tabChange($event)" row="0" rowSpan="1" colSpan="1" [currentTab]="currentTab"></app-new-roster-bar>
 
-  <StackLayout row="1" rowSpan="1" colSpan="1">      
+  <StackLayout row="1" rowSpan="1" colSpan="1">
     <Tabs [selectedIndex]="currentTab" #rosterTabs class="bg-primary" (selectedIndexChanged)="tabChange(rosterTabs.selectedIndex)">
     
       <TabContentItem class="m-x-24 m-t-10">

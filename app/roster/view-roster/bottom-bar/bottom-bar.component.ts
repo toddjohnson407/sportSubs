@@ -3,7 +3,7 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 @Component({
   selector: 'app-bottom-bar',
   templateUrl: './bottom-bar.component.html',
-  styleUrls: ['./bottom-bar.component.css', '../new-roster.component.css']
+  styleUrls: ['./bottom-bar.component.css', '../../new-roster/new-roster.component.css']
 })
 export class BottomBarComponent implements OnInit {
 

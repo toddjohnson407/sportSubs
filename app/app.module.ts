@@ -12,10 +12,12 @@ import { LoginRegisterComponent } from './login-register/login-register.componen
 import { NativeScriptFormsModule } from 'nativescript-angular/forms';
 import { NewRosterComponent } from './roster/new-roster/new-roster.component';
 import { ViewRosterComponent } from './roster/view-roster/view-roster.component';
-import { BottomBarComponent } from './roster/new-roster/bottom-bar/bottom-bar.component';
+import { NewRosterBarComponent } from './roster/new-roster/new-roster-bar/new-roster-bar.component';
 import { NewGameComponent } from './game/new-game/new-game.component';
 import { CurrentGameComponent } from './game/current-game/current-game.component';
 import { ModalDialogService } from 'nativescript-angular/modal-dialog';
+import { StartersComponent } from './game/new-game/starters/starters.component';
+import { BottomBarComponent } from './roster/view-roster/bottom-bar/bottom-bar.component';
 
 // Uncomment and add to NgModule imports  if you need to use the HTTP wrapper
 // import { NativeScriptHttpClientModule } from 'nativescript-angular/http-client';
@@ -28,13 +30,11 @@ import { ModalDialogService } from 'nativescript-angular/modal-dialog';
     LoginRegisterComponent,
     NewRosterComponent,
     ViewRosterComponent,
-    BottomBarComponent,
+    NewRosterBarComponent,
     NewGameComponent,
-    CurrentGameComponent
-  ],
-  entryComponents: [
-    // NewRosterComponent,
-    // ViewRosterComponent
+    CurrentGameComponent,
+    StartersComponent,
+    BottomBarComponent
   ],
   imports: [
     NativeScriptFormsModule,

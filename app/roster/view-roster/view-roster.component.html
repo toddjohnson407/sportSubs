@@ -1,25 +1,62 @@
 
-<StackLayout class="bg-primary">
+<GridLayout rows="100, *, 50" columns="*" class="bg-primary">
+
+  <StackLayout class="bg-primary" row="0" rowSpan="1" colSpan="1">
+    <Label [text]="roster.title" textWrap="true" class="large-text m-20 font-weight-bold text-center"></Label>
+  </StackLayout>
   
-  <Label [text]="roster.title" textWrap="true" class="large-text m-20 font-weight-bold text-center"></Label>
-  <!-- <Label [text]="roster.description" textWrap="true" class="med-text m-x-20 text-center" textWrap="true"></Label> -->
-  <Label [text]="'Sport: ' + roster.sport" textWrap="true" class="med-text m-x-20 m-b-5 font-weight-bold"></Label>
-  <Label [text]="'Players on the Field: ' + roster.playersOnField" textWrap="true" class="med-text m-x-20 m-b-5 font-weight-bold"></Label>
-  <Label [text]="'Duration of Game: ' + roster.gameDuration" textWrap="true" class="med-text m-x-20 m-b-5 font-weight-bold"></Label>
+  <StackLayout row="1" rowSpan="1" colSpan="1">
+    <Tabs [selectedIndex]="currentTab" #rosterTabs (selectedIndexChanged)="tabChange(rosterTabs.selectedIndex)">
 
-  <Label text="Players" textWrap="true" class="font-weight-bold med-text m-y-12 m-x-20"></Label>
-  <ListView [items]="players" class="list-group bg-primary m-x-20 m-b-30" height="300">
-    <ng-template let-player="item">
-      <StackLayout>
-        <Label [text]="player.name" class="list-group-item white-text font-weight-bold"></Label>
-      </StackLayout>
-    </ng-template>
-  </ListView>
+      <TabContentItem>
+        <StackLayout class="bg-primary">
+          
+          <!-- <Label [text]="roster.description" textWrap="true" class="med-text m-x-20 text-center" textWrap="true"></Label> -->
+          <Label [text]="'Sport: ' + roster.sport" textWrap="true" class="med-text m-x-20 m-b-5 font-weight-bold"></Label>
+          <Label [text]="'Players on the Field: ' + roster.playersOnField" textWrap="true" class="med-text m-x-20 m-b-5 font-weight-bold"></Label>
+          <Label [text]="'Duration of Game: ' + roster.gameDuration" textWrap="true" class="med-text m-x-20 m-b-5 font-weight-bold"></Label>
 
-  <StackLayout class="hr-light m-10"></StackLayout>
+          <Label text="Players" textWrap="true" class="font-weight-bold med-text m-y-12 m-x-20"></Label>
+          <ListView [items]="players" class="list-group bg-primary m-x-20 m-b-30" height="300">
+            <ng-template let-player="item">
+              <StackLayout>
+                <Label [text]="player.name" class="list-group-item white-text font-weight-bold"></Label>
+              </StackLayout>
+            </ng-template>
+          </ListView>
+        </StackLayout>
+      </TabContentItem>
 
-  <!-- <StackLayout>
-    <Button text="New Game" (tap)="newGame()" class="btn white-outline-button"></Button>
-  </StackLayout> -->
-  
-</StackLayout>
+
+      <TabContentItem>
+        <StackLayout class="bg-primary m-x-20">
+          <StackLayout class="m-b-20">
+            <Label text="Incomplete Games" textWrap="true" class="white-text font-weight-bold med-text"></Label>
+            
+          </StackLayout>
+          <StackLayout>
+            <Label text="Complete Games" textWrap="true" class="white-text font-weight-bold med-text"></Label>
+            
+          </StackLayout>
+          
+        </StackLayout>
+      </TabContentItem>
+
+      <TabContentItem>
+        <StackLayout class="bg-primary">
+          <Label text="TEST 2" textWrap="true" class="white-text large-text"></Label>
+          
+        </StackLayout>
+      </TabContentItem>
+
+    </Tabs>
+  </StackLayout>
+
+
+  <StackLayout row="2" rowSpan="1" colSpan="1">
+    <app-bottom-bar (tabSelected)="tabChange($event)" [currentTab]="currentTab"></app-bottom-bar>
+  </StackLayout>
+
+</GridLayout>
+
+

@@ -15,6 +15,13 @@ export class ViewRosterComponent implements OnInit {
   roster: any;
   /** Players passed through in context */
   players: any;
+  /** Games passed through in context */
+  games: any;
+  /** Tracks the current tab */
+  currentTab: number = 0;
+  /** Games categorized by completion status */
+  statusGames: any;
+
 
   constructor(
     private params: ModalDialogParams,
@@ -26,6 +33,8 @@ export class ViewRosterComponent implements OnInit {
   ngOnInit() {
     this.roster = this.params.context.roster;
     this.players = this.params.context.players;
+    this.games = this.params.context.games;
+    this.statusGames = { completed: this.games.filter(games => games.completed), incompleted: this.games.filter(games => !games.completed) }
   }
 
   /** Navigates to new game page for the given Roster */
@@ -34,4 +43,7 @@ export class ViewRosterComponent implements OnInit {
     // this.routerExtensions.navigateByUrl(`/game/new/${this.commonService.urlFormat(this.params.context.roster.title)}`, { clearHistory: true })
   }
 
+  tabChange(tab: number) {
+    this.currentTab = tab;
+  }
 }

@@ -1,0 +1,22 @@
+
+<FlexboxLayout class="bg-primary" flexDirection="column" justifyContent="space-around">
+  
+  <StackLayout class="form m-x-24">      
+    <Label text="Select Your Starting Players" textWrap="true" class="font-weight-bold white-text starters-lbl m-y-20 text-center"></Label>
+    <ListView [items]="players" class="m-b-30 bg-primary" height="300">
+      <ng-template let-player="item">
+          <StackLayout class="input-field">
+            <StackLayout orientation="horizontal" (tap)="togglePlayer(player)">
+              <Button [text]="player.isStarting ? '&#xf192;' : '&#xf111;'" class="far white-text m-r-20"></Button>
+              <Label [text]="player.name" class="white-text font-weight-bold"></Label>
+            </StackLayout>
+          </StackLayout>
+      </ng-template>
+    </ListView>
+  </StackLayout>
+
+  <StackLayout>
+    <Button text="&#xf058;" textWrap="true" class="fas white-text add-icon text-center" (tap)="submitStarters()"></Button>
+  </StackLayout>
+
+</FlexboxLayout>

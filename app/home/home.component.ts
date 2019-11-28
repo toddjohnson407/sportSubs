@@ -1,23 +1,22 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { UserService } from 'kinvey-nativescript-sdk/angular';
+import { RouterExtensions } from 'nativescript-angular/router';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent {
-  title = 'sportSubs';
-  private counter = 42;
+export class HomeComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private userService: UserService,
+    private routerExtensions: RouterExtensions
+  ) { }
 
-  public getMessage() {
-    return this.counter > 0 ?
-      `${this.counter} taps left` :
-      'Hoorraaay! You unlocked the NativeScript clicker achievement!';
+  async ngOnInit() {
+    let reroute = await this.userService.getActiveUser() ? '/roster' : '/login-register';
+    this.routerExtensions.navigateByUrl(reroute, { clearHistory: true });
   }
 
-  public onTap() {
-    this.counter--;
-  }
 }

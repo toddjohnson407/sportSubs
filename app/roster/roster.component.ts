@@ -64,10 +64,7 @@ export class RosterComponent implements OnInit {
 
   /** Navigates to new game page for the given Roster */
   newGame(rosterTitle: any) {
-    console.log('ROSTER TITLE');
-    console.log(rosterTitle);
-    console.log(this.route.snapshot.params)
-    this.routerExtensions.navigateByUrl(`/game/new/${this.commonService.urlFormat(rosterTitle)}`, { clearHistory: false })
+    this.routerExtensions.navigateByUrl(`/game/new/${this.commonService.urlFormat(rosterTitle)}`, { clearHistory: true })
   }
 
 }

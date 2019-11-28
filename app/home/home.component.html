@@ -1,6 +1,8 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<StackLayout class="p-20">
-  <Label text="Tap the button" class="h1 text-center"></Label>
-  <Button text="TAP" (tap)="onTap()" class="btn btn-primary btn-active"></Button>
-  <Label [text]="getMessage()" class="h2 text-center" textWrap="true"></Label>
+<ActionBar title="" class="action-bar">
+  <NavigationButton visibility="collapsed"></NavigationButton>
+</ActionBar>
+
+<StackLayout class="p-20 bg-primary">
+  <Label text="Sub Out" textWrap="true" class="home-title m-b-20 text-center"></Label>
+  <Label text="Automated Substitutions" textWrap="true" class="home-subtitle text-center"></Label>
 </StackLayout>

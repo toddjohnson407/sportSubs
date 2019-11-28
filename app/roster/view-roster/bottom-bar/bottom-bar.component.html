@@ -1,0 +1,17 @@
+
+<StackLayout height="50" class="bg-primary">
+    
+  <FlexboxLayout class="p-b-10" row="0" justifyContent="center" alignItems="center" borderTopColor="white" borderTopWidth="2px">
+
+    <FlexboxLayout justifyContent="center" alignItems="center" (tap)="selectTab(0)" [class]="currentTab === 0 ? 'active' : 'inactive'">
+      <Label text="Overview" textWrap="true" [class]="currentTab === 0 ? 'text-primary med-text font-weight-bold text-center' : 'white-text med-text font-weight-bold text-center'"></Label>
+    </FlexboxLayout>
+    <!-- <Progress value="100" maxValue="100" backgroundColor="gray" color="white" width="150"></Progress> -->
+    <FlexboxLayout justifyContent="center" alignItems="center" (tap)="selectTab(1)" [class]="currentTab === 1 ? 'active' : 'inactive'">
+      <Label text="Games" textWrap="true" [class]="currentTab === 1 ? 'text-primary med-text font-weight-bold text-center' : 'white-text med-text font-weight-bold text-center'"></Label>
+    </FlexboxLayout>
+    <FlexboxLayout justifyContent="center" alignItems="center" (tap)="selectTab(2)" [class]="currentTab === 2 ? 'active' : 'inactive'">
+      <Label text="Other" textWrap="true" [class]="currentTab === 2 ? 'text-primary med-text font-weight-bold text-center' : 'white-text med-text font-weight-bold text-center'"></Label>
+    </FlexboxLayout>
+  </FlexboxLayout>
+</StackLayout>  
